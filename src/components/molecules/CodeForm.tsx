@@ -85,8 +85,8 @@ export function CodeForm() {
       <p className="mt-2 text-sm leading-relaxed text-on-surface-muted/80 px-1">
         OurLens™ is an educational hazard-awareness tool and is not a substitute
         for professional advice, safety assessments, or regulatory compliance
-        reviews. Data is processed locally on your device and is not stored by
-        OurLens.
+        reviews. Images are sent for AI analysis and are not stored by OurLens
+        after processing.
       </p>
 
       <button
