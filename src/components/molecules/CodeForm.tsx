@@ -1,13 +1,20 @@
 import { useState, type FormEvent } from 'react';
 import { navigate } from 'astro:transitions/client';
 import { useHydratedSessionStore, useSessionStore } from '@/stores/use-session-store';
+import { CONSENT_VERSION } from '@/lib/consent';
 import { Spinner } from '@/components/atoms/Spinner';
 
-const CONSENT_VERSION = '1.0';
-
 export function CodeForm() {
-  const { code, isValidating, isValid, termsAccepted, consentAccepted, error, validateCodeAction } =
-    useHydratedSessionStore();
+  const {
+    code,
+    isValidating,
+    isValid,
+    termsAccepted,
+    consentAccepted,
+    consentVersion,
+    error,
+    validateCodeAction,
+  } = useHydratedSessionStore();
   const [inputValue, setInputValue] = useState(code || '');
   const [checked, setChecked] = useState(false);
   const [consentChecked, setConsentChecked] = useState(false);
@@ -31,7 +38,7 @@ export function CodeForm() {
     }
   };
 
-  if (isValid && termsAccepted && consentAccepted) {
+  if (isValid && termsAccepted && consentAccepted && consentVersion === CONSENT_VERSION) {
     navigate('/instructions', { history: 'replace' });
     return null;
   }
@@ -96,8 +103,9 @@ export function CodeForm() {
         />
         <span className="text-base text-on-surface-muted leading-relaxed select-none">
           I consent to images of my home being sent to AI providers in the United
-          States for hazard analysis, and I will not include other people in the
-          frame. I have read the{' '}
+          States for hazard analysis, including any health or disability
+          information visible in the images, and I will not include other people
+          in the frame. I have read the{' '}
           <a
             href="/privacy"
             className="font-semibold text-on-surface underline hover:text-brand-500 focus-visible:shadow-focus rounded-accessible transition-[color]"

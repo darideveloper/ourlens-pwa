@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 import { navigate } from 'astro:transitions/client';
 import { useHydratedSessionStore } from '@/stores/use-session-store';
+import { CONSENT_VERSION } from '@/lib/consent';
 
 function Skeleton() {
   return (
@@ -25,7 +26,7 @@ interface AuthGuardProps {
 }
 
 export default function AuthGuard({ children }: AuthGuardProps) {
-  const { isValid, termsAccepted, consentAccepted } = useHydratedSessionStore();
+  const { isValid, termsAccepted, consentAccepted, consentVersion } = useHydratedSessionStore();
 
   if (isValid === null) {
     return <Skeleton />;
@@ -41,7 +42,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     return <Skeleton />;
   }
 
-  if (!consentAccepted) {
+  if (!consentAccepted || consentVersion !== CONSENT_VERSION) {
     navigate('/', { history: 'replace' });
     return <Skeleton />;
   }

@@ -27,7 +27,7 @@ The scan itself and the special category data in images rely on consent, not on 
 | Data subjects | Code holders; in workplace use, employees or contractors using a distributed code |
 | Purpose | Licence administration, abuse prevention, cost control, fault diagnosis and service availability |
 | Recipients | Hosting provider in the EU; AI suppliers only where the request itself requires it (no additional use) |
-| Retention | Licence records for the life of the licence; host and proxy logs 30 days; error records no longer than necessary |
+| Retention | Licence records for the life of the licence; host and proxy logs targeted at 30 days, to be configured; error records no longer than necessary |
 
 Images and findings are not processed for these purposes.
 
@@ -48,7 +48,7 @@ The processing is limited to what is needed:
 - The licence database holds a code, a project, an organisation and two counters. It holds no images, findings or user identity.
 - Rate limiting and payload limits operate on request metadata, not on image content.
 - Error records contain the service name, an execution reference, an error message and a stack trace. They do not include images or findings.
-- Logs are retained for 30 days, with request bodies excluded.
+- Logs are to be retained for 30 days, with request bodies excluded; this is a target to be configured.
 
 Less intrusive alternatives were considered:
 
@@ -72,7 +72,7 @@ Less intrusive alternatives were considered:
 - Data minimisation: no names, emails or accounts.
 - Least-privilege database access and parameterised queries.
 - Rate and payload limits.
-- 30-day log retention, no request bodies.
+- Target 30-day log retention, no request bodies, to be configured and evidenced.
 - No sale, advertising or model training.
 - Transparency through the dedicated OurLens notice.
 - Rights route through `info@ourlivesapp.com`.

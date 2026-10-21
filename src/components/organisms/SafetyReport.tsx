@@ -79,7 +79,7 @@ export function SafetyReport({ hazards, onScanAgain, onClearData }: SafetyReport
               onClick={onClearData}
               className="mt-5 block mx-auto text-sm font-medium text-on-surface-muted underline hover:text-on-surface focus-visible:shadow-focus rounded-accessible"
             >
-              Clear my data
+              Clear scan history
             </button>
           )}
         </div>
@@ -131,7 +131,7 @@ export function EmptyReport({
           onClick={onClearData}
           className="mt-5 block mx-auto text-sm font-medium text-on-surface-muted underline hover:text-on-surface focus-visible:shadow-focus rounded-accessible"
         >
-          Clear my data
+          Clear scan history
         </button>
       )}
     </div>
