@@ -25,7 +25,7 @@ interface AuthGuardProps {
 }
 
 export default function AuthGuard({ children }: AuthGuardProps) {
-  const { isValid, termsAccepted } = useHydratedSessionStore();
+  const { isValid, termsAccepted, consentAccepted } = useHydratedSessionStore();
 
   if (isValid === null) {
     return <Skeleton />;
@@ -37,6 +37,11 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   }
 
   if (!termsAccepted) {
+    navigate('/', { history: 'replace' });
+    return <Skeleton />;
+  }
+
+  if (!consentAccepted) {
     navigate('/', { history: 'replace' });
     return <Skeleton />;
   }

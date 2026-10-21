@@ -87,12 +87,24 @@ import Icon from '@/components/atoms/Icon.astro';
           Tap &ldquo;Start Scan&rdquo; when ready
         </h2>
         <p class="text-base text-on-surface-muted">
-          The camera will capture frames for 3 seconds. You&rsquo;ll see a
+          The camera will capture frames for 10 seconds. You&rsquo;ll see a
           progress indicator while the AI analyzes your home.
         </p>
       </div>
     </li>
   </ol>
+
+  <div class="mt-8 rounded-accessible border border-on-surface-muted/20 bg-surface-alt p-4">
+    <p class="text-base text-on-surface-muted leading-relaxed">
+      <strong class="text-on-surface">Before you start:</strong> do not include
+      other people or personal documents in the frame. Images are sent for AI
+      analysis. Read the{' '}
+      <a href="/privacy" class="font-semibold text-on-surface underline">
+        privacy notice
+      </a>
+      .
+    </p>
+  </div>
 
   <div class="mt-12 text-center">
     <Button href="/scanner" variant="primary" size="lg">

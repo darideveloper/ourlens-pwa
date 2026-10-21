@@ -8,9 +8,13 @@ interface SessionState {
   isValidating: boolean;
   isValid: boolean | null;
   termsAccepted: boolean;
+  consentAccepted: boolean;
+  consentAt: string | null;
+  consentVersion: string | null;
   error: string | null;
   validateCodeAction: (code: string) => Promise<void>;
   setTermsAccepted: (accepted: boolean) => void;
+  setConsentAccepted: (accepted: boolean, version: string) => void;
   reset: () => void;
 }
 
@@ -22,6 +26,9 @@ export const useSessionStore = create<SessionState>()(
         isValidating: false,
         isValid: null,
         termsAccepted: false,
+        consentAccepted: false,
+        consentAt: null,
+        consentVersion: null,
         error: null,
         validateCodeAction: async (code: string) => {
           set({ isValidating: true, error: null, code });
@@ -45,13 +52,35 @@ export const useSessionStore = create<SessionState>()(
           }
         },
         setTermsAccepted: (accepted: boolean) => set({ termsAccepted: accepted }),
+        setConsentAccepted: (accepted: boolean, version: string) =>
+          set({
+            consentAccepted: accepted,
+            consentAt: accepted ? new Date().toISOString() : null,
+            consentVersion: accepted ? version : null,
+          }),
         reset: () =>
-          set({ code: '', isValidating: false, isValid: null, termsAccepted: false, error: null }),
+          set({
+            code: '',
+            isValidating: false,
+            isValid: null,
+            termsAccepted: false,
+            consentAccepted: false,
+            consentAt: null,
+            consentVersion: null,
+            error: null,
+          }),
       }),
       {
         name: 'ourlens-session',
         skipHydration: true,
-        partialize: (state) => ({ code: state.code, isValid: state.isValid, termsAccepted: state.termsAccepted }),
+        partialize: (state) => ({
+          code: state.code,
+          isValid: state.isValid,
+          termsAccepted: state.termsAccepted,
+          consentAccepted: state.consentAccepted,
+          consentAt: state.consentAt,
+          consentVersion: state.consentVersion,
+        }),
         storage: createJSONStorage(() => localStorage),
       },
     ),
@@ -71,6 +100,9 @@ export function useHydratedSessionStore() {
       if (!state.termsAccepted) {
         useSessionStore.setState({ termsAccepted: false });
       }
+      if (!state.consentAccepted) {
+        useSessionStore.setState({ consentAccepted: false, consentAt: null, consentVersion: null });
+      }
       setHydrated(true);
     });
     if (useSessionStore.persist.hasHydrated()) {
@@ -80,6 +112,9 @@ export function useHydratedSessionStore() {
       }
       if (!state.termsAccepted) {
         useSessionStore.setState({ termsAccepted: false });
+      }
+      if (!state.consentAccepted) {
+        useSessionStore.setState({ consentAccepted: false, consentAt: null, consentVersion: null });
       }
       setHydrated(true);
     }

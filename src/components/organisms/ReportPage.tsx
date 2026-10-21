@@ -26,6 +26,7 @@ export function ReportPage() {
   const hydrated = useHydratedScanStore();
   const currentScan = hydrated.currentScan;
   const clearCurrentScan = hydrated.clearCurrentScan;
+  const clearAll = hydrated.clearAll;
   const analysisState = useAnalysisStore((s) => s.state);
 
   const handleScanAgain = async () => {
@@ -33,6 +34,13 @@ export function ReportPage() {
     await navigate('/scanner');
     clearCurrentScan();
     useAnalysisStore.getState().reset();
+  };
+
+  const handleClearData = async () => {
+    clearAll();
+    useCameraStore.getState().reset();
+    useAnalysisStore.getState().reset();
+    await navigate('/', { history: 'replace' });
   };
 
   if (analysisState !== 'idle' && analysisState !== 'complete') {
@@ -47,8 +55,14 @@ export function ReportPage() {
   }
 
   if (!currentScan || currentScan.hazards.length === 0) {
-    return <EmptyReport onScanAgain={handleScanAgain} />;
+    return <EmptyReport onScanAgain={handleScanAgain} onClearData={handleClearData} />;
   }
 
-  return <SafetyReport hazards={currentScan.hazards} onScanAgain={handleScanAgain} />;
+  return (
+    <SafetyReport
+      hazards={currentScan.hazards}
+      onScanAgain={handleScanAgain}
+      onClearData={handleClearData}
+    />
+  );
 }

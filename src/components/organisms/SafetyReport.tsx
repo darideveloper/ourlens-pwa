@@ -4,9 +4,10 @@ import { HazardCard } from '@/components/atoms/HazardCard';
 interface SafetyReportProps {
   hazards: Hazard[];
   onScanAgain: () => void;
+  onClearData?: () => void;
 }
 
-export function SafetyReport({ hazards, onScanAgain }: SafetyReportProps) {
+export function SafetyReport({ hazards, onScanAgain, onClearData }: SafetyReportProps) {
   const highCount = hazards.filter((h) => h.riskLevel === 'High').length;
   const mediumCount = hazards.filter((h) => h.riskLevel === 'Medium').length;
   const lowCount = hazards.filter((h) => h.riskLevel === 'Low').length;
@@ -72,13 +73,28 @@ export function SafetyReport({ hazards, onScanAgain }: SafetyReportProps) {
           >
             Scan Again
           </button>
+          {onClearData && (
+            <button
+              type="button"
+              onClick={onClearData}
+              className="mt-5 block mx-auto text-sm font-medium text-on-surface-muted underline hover:text-on-surface focus-visible:shadow-focus rounded-accessible"
+            >
+              Clear my data
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export function EmptyReport({ onScanAgain }: { onScanAgain: () => void }) {
+export function EmptyReport({
+  onScanAgain,
+  onClearData,
+}: {
+  onScanAgain: () => void;
+  onClearData?: () => void;
+}) {
   return (
     <div className="min-h-dvh flex flex-col items-center justify-center px-4 text-center">
       <div className="text-safe-500 mb-4 animate-scale-in">
@@ -109,6 +125,15 @@ export function EmptyReport({ onScanAgain }: { onScanAgain: () => void }) {
       >
         Scan Again
       </button>
+      {onClearData && (
+        <button
+          type="button"
+          onClick={onClearData}
+          className="mt-5 block mx-auto text-sm font-medium text-on-surface-muted underline hover:text-on-surface focus-visible:shadow-focus rounded-accessible"
+        >
+          Clear my data
+        </button>
+      )}
     </div>
   );
 }
