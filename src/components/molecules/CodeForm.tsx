@@ -110,7 +110,7 @@ export function CodeForm() {
 
       <p className="text-sm leading-relaxed text-on-surface-muted/80 px-1">
         You must be 18 or over to use OurLens. You can withdraw consent at any
-        time by not using the service.
+        time by contacting us or by not using the service.
       </p>
 
       <p className="mt-2 text-sm leading-relaxed text-on-surface-muted/80 px-1">
